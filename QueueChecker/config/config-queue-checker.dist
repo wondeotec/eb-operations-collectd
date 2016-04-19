@@ -1,6 +1,7 @@
 ; Login Credentials
 [librato]
 interval:
+hostname:
 [queue]
 name:
 virtual_host:

@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 import pika
 import ConfigParser
+import os
 
 Config = ConfigParser.ConfigParser()
-Config.read("config/config-queue-checker.ini")
+dir = os.path.dirname(__file__)
+path = os.path.join(dir, "config/config-queue-checker.ini")
+Config.read(path)
 
 queue_name = Config.get('queue', 'name')
 queue_password = Config.get('queue', 'password')
@@ -12,6 +15,7 @@ queue_host = Config.get('queue', 'host')
 queue_user = Config.get('queue', 'user')
 queue_port = int(Config.get('queue', 'port'))
 interval = int(Config.get('librato', 'interval'))
+hostname = Config.get('librato', 'hostname')
 
 
 def on_callback(msg):
@@ -47,4 +51,4 @@ res = channel.queue_declare(
         passive=True
     )
 
-print 'PUTVAL \"%s/rabbitmq/gauge-status\" interval=%s N:%s' % (queue_host, interval, res.method.message_count)
+print 'PUTVAL \"%s/%s/gauge-status\" interval=%s N:%s' % (hostname, queue_name, interval, res.method.message_count)
