@@ -1,0 +1,10 @@
+; Login Credentials
+[librato]
+interval:
+[queue]
+name:
+virtual_host:
+password:
+host:
+user:
+port:
